@@ -13,3 +13,11 @@ app.config['DEBUG'] = True
 def index():
     template = jinja_env.get_template('signup.html')
     return template.render()
+
+@app.route("/hello", methods=['POST'])
+def hello():
+    user_name = request.form['user-name']
+    template = jinja_env.get_template('hello.html')
+    return template.render(name=user_name)
+
+app.run()
