@@ -14,12 +14,17 @@ def index():
     #template = jinja_env.get_template('signup.html')
     #return template.render()
     username_error = request.args.get("username_error")
-    return render_template('signup.html', username_error=username_error)
+    email = request.args.get("email")
+    uname = request.args.get("uname")
+    email_error = request.args.get("email_error")
+    password_error = request.args.get("password_error")
+    verify_error = request.args.get("verify_error")
+    return render_template('signup.html', username_error=username_error, email=email, uname=uname, email_error=email_error, password_error=password_error, verify_error=verify_error)
 #, email=email, username_error=username_error, email_error=email_error, password_error=password_error, verify_error=verify_error)
 
 @app.route("/hello", methods=['POST'])
 def hello():
-    user_name = request.form['user-name']
+    uname = request.form['user-name']
     password = request.form['password']
     verify_password = request.form['verify-password']
     email = request.form['email']
@@ -27,9 +32,9 @@ def hello():
     password_error = ''
     verify_error = ''
     email_error = ''
-    if not user_name:
+    if not uname:
         username_error += 'You must fill in the username field. '
-    elif len(user_name) < 3:
+    elif len(uname) < 3:
         username_error += 'Your username must be at least 3 characters long. '
     if not password:
         password_error += 'You must fill in the password field. '
@@ -39,11 +44,11 @@ def hello():
         verify_error += 'You must fill in the verify password field. '
     elif password != verify_password:
         verify_error += 'Your passwords do not match. '
-    if ' ' in user_name:
+    if ' ' in uname:
         username_error += 'Your username cannot contain a space. '
     if ' ' in password:
         password_error += 'Your password cannot contain a space. '
-    if len(user_name) > 20:
+    if len(uname) > 20:
         username_error += 'Your username cannot be more than 20 characters long. '
     if len(password) > 20:
         password_error += 'Your password cannot be more than 20 characters long. '
@@ -59,14 +64,13 @@ def hello():
     if email_error:
         email = ''
     if username_error:
-        user_name = ''
+        uname = ''
     if username_error or password_error or verify_error or email_error:
         #return redirect("/?username_error={0}".format(username_error))
-        return redirect("/?username_error=" + username_error)
-        # password_error=password_error, verify_error=verify_error, email_error=email_error, user_name=user_name, email=email)
+        return redirect("/?username_error=" + username_error + "&password_error=" + password_error + "&verify_error=" + verify_error + "&email_error=" + email_error + "&uname=" + uname + "&email=" + email)
     else: 
         #template = jinja_env.get_template('hello.html')
-        #return template.render(name=user_name)
-        return render_template('hello.html', name=user_name)
+        #return template.render(name=username)
+        return render_template('hello.html', name=uname)
 
 app.run()
