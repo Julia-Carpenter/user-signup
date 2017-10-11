@@ -14,11 +14,23 @@ def index():
     #template = jinja_env.get_template('signup.html')
     #return template.render()
     username_error = request.args.get("username_error")
+    if not username_error:
+        username_error=''
     email = request.args.get("email")
+    if not email:
+        email=''
     uname = request.args.get("uname")
+    if not uname:
+        uname=''
     email_error = request.args.get("email_error")
+    if not email_error:
+        email_error=''
     password_error = request.args.get("password_error")
+    if not password_error:
+        password_error=''
     verify_error = request.args.get("verify_error")
+    if not verify_error:
+        verify_error=''
     return render_template('signup.html', username_error=username_error, email=email, uname=uname, email_error=email_error, password_error=password_error, verify_error=verify_error)
 #, email=email, username_error=username_error, email_error=email_error, password_error=password_error, verify_error=verify_error)
 
