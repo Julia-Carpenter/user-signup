@@ -13,6 +13,7 @@ app.config['DEBUG'] = True
 def index():
     template = jinja_env.get_template('signup.html')
     return template.render()
+#, email=email, username_error=username_error, email_error=email_error, password_error=password_error, verify_error=verify_error)
 
 @app.route("/hello", methods=['POST'])
 def hello():
@@ -58,10 +59,8 @@ def hello():
     if username_error:
         user_name = ''
     if username_error or password_error or verify_error or email_error:
-        template = jinja_env.get_template('signup.html')
-        return template.render(username_error = username_error, password_error = password_error, 
-            verify_error = verify_error, email_error = email_error, 
-            user_name = user_name, email = email)
+        return redirect("/?username_error={0}".format(username_error))
+        # password_error=password_error, verify_error=verify_error, email_error=email_error, user_name=user_name, email=email)
     else: 
         template = jinja_env.get_template('hello.html')
         return template.render(name=user_name)
