@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, render_template, url_for
+from flask import Flask, request, redirect, render_template
 import cgi
 import os
 import jinja2
@@ -11,8 +11,6 @@ app.config['DEBUG'] = True
 
 @app.route("/")
 def index():
-    #template = jinja_env.get_template('signup.html')
-    #return template.render()
     username_error = request.args.get("username_error")
     if not username_error:
         username_error=''
@@ -32,7 +30,6 @@ def index():
     if not verify_error:
         verify_error=''
     return render_template('signup.html', username_error=username_error, email=email, uname=uname, email_error=email_error, password_error=password_error, verify_error=verify_error)
-#, email=email, username_error=username_error, email_error=email_error, password_error=password_error, verify_error=verify_error)
 
 @app.route("/hello", methods=['POST'])
 def hello():
@@ -78,11 +75,8 @@ def hello():
     if username_error:
         uname = ''
     if username_error or password_error or verify_error or email_error:
-        #return redirect("/?username_error={0}".format(username_error))
         return redirect("/?username_error=" + username_error + "&password_error=" + password_error + "&verify_error=" + verify_error + "&email_error=" + email_error + "&uname=" + uname + "&email=" + email)
     else: 
-        #template = jinja_env.get_template('hello.html')
-        #return template.render(name=username)
         return render_template('hello.html', name=uname)
 
 app.run()
